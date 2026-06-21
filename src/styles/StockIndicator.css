@@ -1,0 +1,23 @@
+.low-stock {
+  background-color: #ef4444;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.medium-stock {
+  background-color: #f59e0b;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.in-stock {
+  background-color: #10b981;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+}

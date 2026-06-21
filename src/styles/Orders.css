@@ -1,0 +1,34 @@
+.orders {
+  padding: 20px;
+}
+
+.orders h1 {
+  margin-bottom: 20px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  background: white;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th {
+  background: #1e293b;
+  color: white;
+  padding: 15px;
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background: #f8fafc;
+}
