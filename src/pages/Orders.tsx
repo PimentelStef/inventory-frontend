@@ -1,35 +1,36 @@
+import { useEffect, useState } from "react";
+import type { Order } from "../types/Order";
 import "../styles/Orders.css";
+import api from "../services/api";
 
 export default function Orders() {
+const [orders, setOrders] = useState<Order[]>([]);
+
+  useEffect(() => {
+    api
+      .get("/Orders")
+      .then((res) =>
+        setOrders(res.data)
+      );
+  }, []);
+
   return (
-    <div className="orders">
+    <div>
+
       <h1>Orders</h1>
 
-      <div className="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Customer</th>
-              <th>Total</th>
-            </tr>
-          </thead>
+      {orders.map((o) => (
+        <div key={o.orderId}>
+          {o.orderNumber}
+          {" | "}
+          {o.customerName}
+          {" | "}
+          ₱{o.totalAmount}
+          {" | "}
+          {o.status}
+        </div>
+      ))}
 
-          <tbody>
-            <tr>
-              <td>1001</td>
-              <td>Juan Dela Cruz</td>
-              <td>₱3,500</td>
-            </tr>
-
-            <tr>
-              <td>1002</td>
-              <td>Maria Santos</td>
-              <td>₱1,200</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 }

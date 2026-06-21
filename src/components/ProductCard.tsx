@@ -1,26 +1,44 @@
-import StockIndicator from "./StockIndicator";
+import { useNavigate } from "react-router-dom";
+import type { Product } from "../types/Product";
 import "../styles/ProductCard.css";
 
-type Props = {
-  name: string;
-  price: number;
-  quantity: number;
+type Props = { product: Product;
 };
 
 export default function ProductCard({
-  name,
-  price,
-  quantity,
+  product,
 }: Props) {
+  const navigate = useNavigate();
+
   return (
     <div className="product-card">
-      <h3>{name}</h3>
+      <h3>{product.name}</h3>
 
-      <p>Price: ₱{price}</p>
+      <p>
+        SKU:
+        {" "}
+        {product.sku}
+      </p>
 
-      <StockIndicator quantity={quantity} />
+      <p>
+        ₱{product.unitPrice}
+      </p>
 
-      <button>View Details</button>
+      <p>
+        Stock:
+        {" "}
+        {product.stockQuantity}
+      </p>
+
+      <button
+        onClick={() =>
+          navigate(
+            `/products/${product.productId}`
+          )
+        }
+      >
+        View Details
+      </button>
     </div>
   );
 }

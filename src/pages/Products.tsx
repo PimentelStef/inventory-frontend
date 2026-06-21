@@ -1,43 +1,75 @@
-import ProductCard from "../components/ProductCard";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api from "../services/api";
 import "../styles/Products.css";
+import SearchBar from "../components/SearchBar";
+import type { Product } from "../types/Product";
 
 export default function Products() {
+  const [products, setProducts] =
+    useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res =
+        await api.get("/Products");
+
+      setProducts(res.data);
+    };
+
+    fetchProducts();
+  }, []);
+
+  async function handleSearch(
+    keyword: string
+  ) {
+    if (keyword.trim() === "") {
+      const res =
+        await api.get("/Products");
+
+      setProducts(res.data);
+      return;
+    }
+
+    const res = await api.get(
+      `/Products?search=${keyword}`
+    );
+
+    setProducts(res.data);
+  }
+
   return (
-    <div className="products">
+    <>
       <h1>Products</h1>
 
-      <div className="search-section">
-        <input type="text" placeholder="Search products..." />
+      <SearchBar
+        onSearch={handleSearch}
+      />
 
-        <select>
-          <option>All Categories</option>
-          <option>Electronics</option>
-          <option>Food</option>
-          <option>Accessories</option>
-        </select>
+      {products.map((p) => (
+        <div key={p.productId}>
+          <h3>{p.name}</h3>
 
-        <button>Search</button>
-      </div>
+          <p>SKU: {p.sku}</p>
 
-      <div className="product-grid">
-        <ProductCard
-          name="Laptop"
-          price={45000}
-          quantity={5}
-        />
+          <p>
+            Stock:
+            {p.stockQuantity}
+          </p>
 
-        <ProductCard
-          name="Mouse"
-          price={600}
-          quantity={50}
-        />
+          <p>
+            ₱{p.unitPrice}
+          </p>
 
-        <ProductCard
-          name="Keyboard"
-          price={1500}
-          quantity={20}
-        />
-      </div>
-    </div>
+          <Link
+            to={`/products/${p.productId}`}
+          >
+            <button>
+              View Details
+            </button>
+          </Link>
+        </div>
+      ))}
+    </>
   );
 }
